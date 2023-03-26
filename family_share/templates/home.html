@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
+	<title>Family's Share</title>
+	<link rel="stylesheet" type="text/css" href="static/home.css">
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+        <ul class="flash">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+    {% if error %}
+       <script>
+            alert("{{ error }}");
+        </script>
+    {% endif %}
+
+    <div class="container">
+    	<div class="tb">
+    		<div class="brand-logo"><a href="{{ url_for('home') }}"></a></div>
+    		<div class="brand-title"><a href="{{ url_for('home') }}">FAMILY'S SHARE</a></div>
+    	</div>
+    	<div class="form">
+    	    <form action="/upload" method="POST" enctype="multipart/form-data">
+    		    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    			<input type="file" name="file" placeholder="Select a file">
+	            <button type="submit">Share</button>
+	        </form>
+	    </div>
+	    <div class="form">
+	    	<form action="{{ url_for('search') }}" method="GET">
+    		    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    			<input type="text" name="query" placeholder="Search your's,Family's file's">
+	            <button type="submit">Search</button>
+	        </form>
+	    </div>
+	    <div class="ai">
+	    	<h3>GET AI ASSISTED<br>
+	    		TEXT SUMMARY
+	    	</h3>
+	    	<button type="submit" onclick="openModal()">Get Summary</button>
+	    </div>
+	</div>
+	<div class="Search_results">
+	    {% if results %}
+	    	<ul>
+	    		{% for result in results %}
+	    		  <li>{{ result }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
